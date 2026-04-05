@@ -1,0 +1,18 @@
+import { client } from "@/utils/helper";
+
+const getCategory = async () => {
+    try {
+        const response = await client.get("category");
+        if(response.data.success){
+            return {categories: response.data.data}
+        } else{
+            throw new Error("Failed to fetch API")
+        }
+    }
+    catch (error) {
+        throw new Error("Failed to fetch API")
+    }
+}
+
+
+export { getCategory }
