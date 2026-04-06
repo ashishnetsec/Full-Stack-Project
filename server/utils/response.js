@@ -1,9 +1,10 @@
 // success response
-const sendSuccess = (res, message = "Success", data = {}) => {
+const sendSuccess = (res, message = "Success", data = {}, meta = {}) => {
     return res.status(200).json({
         success: true,
         message,
-        data
+        data,
+        meta
     });
 };
 

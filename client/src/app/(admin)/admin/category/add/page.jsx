@@ -5,7 +5,7 @@ import React, { useRef, useState } from "react";
 import { client, notify } from "@/utils/helper";
 
 export default function page() {
-const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const nameRef = useRef();
   const slugRef = useRef();
 
@@ -28,7 +28,7 @@ const [loading, setLoading] = useState(false)
     client.post("category/create", payload).then(
       (res) => {
         notify(res.data.message, res.data.success)
-        if(res.data.success){
+        if (res.data.success) {
           nameRef.current.value = ""
           slugRef.current.value = ""
         }
@@ -37,7 +37,7 @@ const [loading, setLoading] = useState(false)
       (err) => {
         notify("internal server error", false)
       }
-    ).finally(()=>{
+    ).finally(() => {
       setLoading(false)
     })
   }
@@ -94,6 +94,30 @@ const [loading, setLoading] = useState(false)
             </div>
 
           </div>
+          {/* 🔹 Image Upload */}
+          <div className="bg-white mt-4 p-6 rounded-2xl shadow-sm border">
+            <h2 className="text-lg font-semibold mb-4">Upload Category Image</h2>
+
+            <div className="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer hover:bg-gray-50 transition">
+
+              {/* Preview Placeholder */}
+              <div className="flex flex-col items-center justify-center gap-2">
+                <div className="w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-sm">
+                  Preview
+                </div>
+                <p className="text-gray-500 text-sm">
+                  Click to upload image
+                </p>
+              </div>
+
+              {/* Hidden File Input */}
+              <input
+                type="file"
+                className="hidden"
+                accept="image/*"
+              />
+            </div>
+          </div>
         </div>
         {/* 🔹 Actions */}
         <div className="flex justify-end gap-4">
@@ -107,9 +131,9 @@ const [loading, setLoading] = useState(false)
           <button
             type="submit"
             className="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800"
-            disabled = {loading}
+            disabled={loading}
           >
-            {loading?"Saving Category":"Save Category"}
+            {loading ? "Saving Category" : "Save Category"}
           </button>
         </div>
 
