@@ -20,11 +20,12 @@ export default function page() {
 
   const submitHandler = (e) => {
     e.preventDefault();
+    const payload = new FormData();
+    payload.append("image", e.target.image.files[0])
+    payload.append("name", nameRef.current.value)
+    payload.append("slug", slugRef.current.value)
+    
     setLoading(true)
-    const payload = {
-      name: nameRef.current.value,
-      slug: slugRef.current.value
-    }
     client.post("category/create", payload).then(
       (res) => {
         notify(res.data.message, res.data.success)
@@ -95,28 +96,31 @@ export default function page() {
 
           </div>
           {/* 🔹 Image Upload */}
-          <div className="bg-white mt-4 p-6 rounded-2xl shadow-sm border">
+          <div className="bg-white mt-3 p-6 rounded-2xl shadow-sm border">
             <h2 className="text-lg font-semibold mb-4">Upload Category Image</h2>
 
-            <div className="border-2 border-dashed rounded-xl p-6 text-center cursor-pointer hover:bg-gray-50 transition">
+            <label className="border-2 border-dashed rounded-xl p-10 text-center cursor-pointer hover:bg-gray-50 transition block">
 
               {/* Preview Placeholder */}
               <div className="flex flex-col items-center justify-center gap-2">
                 <div className="w-24 h-24 bg-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-sm">
                   Preview
                 </div>
+
                 <p className="text-gray-500 text-sm">
                   Click to upload image
                 </p>
               </div>
 
-              {/* Hidden File Input */}
+              {/* Hidden Input */}
               <input
                 type="file"
+                // ref={imageRef}
+                name="image"
                 className="hidden"
                 accept="image/*"
               />
-            </div>
+            </label>
           </div>
         </div>
         {/* 🔹 Actions */}

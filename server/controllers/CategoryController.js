@@ -4,14 +4,18 @@ const { sendSuccess, sendCreated, sendBadRequest, sendNotFound, sendConflict, se
 
 const create = async (req, res) => {
     try {
-        const { name, slug, is_Home, is_Top, is_Popular, status } = req.body;
-        if (!name || !slug) return sendBadRequest(res)
-
-        const category = await CategoriesModel.findOne({ name })
-        if (category) return sendConflict(res,)
-        await CategoriesModel.create({ name, slug, is_Home, is_Top, is_Popular, status });
-        return sendCreated(res)
-
+        const { name, slug } = req.body;
+        const image = req.files.image;
+        
+        if (!name || !slug || !image) return sendBadRequest(res)
+        const destination = `./public/category/${image.name}`
+        image.mv(destination, async (err) => {
+            if (err) return sendServerError(res, "Unable to Upload File")
+            // const category = await CategoriesModel.findOne({ name })
+            // if (category) return sendConflict(res, "Category Already Exist")
+            await CategoriesModel.create({ name, slug, image: image.name });
+            return sendCreated(res)
+        })
     } catch (error) {
         sendServerError(res, error)
     }
