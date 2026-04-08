@@ -21,9 +21,10 @@ export default function page() {
   const submitHandler = (e) => {
     e.preventDefault();
     const payload = new FormData();
-    payload.append("image", e.target.image.files[0])
+    
     payload.append("name", nameRef.current.value)
     payload.append("slug", slugRef.current.value)
+    payload.append("image", e.target.image.files[0])
     
     setLoading(true)
     client.post("category/create", payload).then(

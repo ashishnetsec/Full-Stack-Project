@@ -9,10 +9,12 @@ const create = async (req, res) => {
         
         if (!name || !slug || !image) return sendBadRequest(res)
         const destination = `./public/category/${image.name}`
-        image.mv(destination, async (err) => {
+        image.mv(
+            destination,
+            async (err) => {
             if (err) return sendServerError(res, "Unable to Upload File")
-            // const category = await CategoriesModel.findOne({ name })
-            // if (category) return sendConflict(res, "Category Already Exist")
+            const category = await CategoriesModel.findOne({ name })
+            if (category) return sendConflict(res, "Category Already Exist")
             await CategoriesModel.create({ name, slug, image: image.name });
             return sendCreated(res)
         })

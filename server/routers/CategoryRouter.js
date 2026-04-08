@@ -8,6 +8,4 @@ categoryRouter.patch("/status-update/:id", statusupdateByID)
 categoryRouter.get("/:id", getByID)
 categoryRouter.delete("/delete/:id", deleteByID)
 
-
-
 module.exports = categoryRouter;
