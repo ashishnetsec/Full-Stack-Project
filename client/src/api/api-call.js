@@ -4,7 +4,7 @@ const getCategory = async () => {
     try {
         const response = await client.get("category");
         if(response.data.success){
-            return {categories: response.data.data}
+            return {res: response.data}
         } else{
             throw new Error("Failed to fetch API")
         }

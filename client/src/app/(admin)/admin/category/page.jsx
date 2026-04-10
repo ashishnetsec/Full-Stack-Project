@@ -13,9 +13,16 @@ import DeleteBtn from "@/components/Admin/DeleteBtn";
 
 
 export default async function CategoriesPage() {
+
+    
+
+
+
     const statusName = ["status", "is_Home", "is_Top", "is_Popular"]
-    const { categories } = await getCategory()
-    // console.log(categories)
+    const { res } = await getCategory()
+    let categories = res.data
+    let meta = res.meta
+    console.log()
     return (
         <div>
             {/* 🔹 Header */}
@@ -58,12 +65,13 @@ export default async function CategoriesPage() {
                     {/* Body */}
                     <tbody>
                         {categories.map((cat) => (
+                            
                             <tr key={cat._id} className="border-t hover:bg-gray-50 transition">
 
                                 {/* Image */}
                                 <td className="px-6 py-4">
                                     <img
-                                        src={cat.image}
+                                        src={meta.imageBaseURL + cat.image}
                                         alt={cat.name}
                                         className="w-10 h-10 rounded-md object-cover border"
                                     />

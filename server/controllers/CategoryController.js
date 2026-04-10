@@ -26,8 +26,12 @@ const create = async (req, res) => {
 const read = async (req, res) => {
     try {
         // console.log(req.body)
-        const category = await CategoriesModel.find()
-        if (category) return sendSuccess(res, "Category Data Fetched Successfully", category)
+        const category = await CategoriesModel.find();
+        const total = await CategoriesModel.find().countDocuments();
+        if (category) return sendSuccess(res, "Category Data Fetched Successfully", category, {
+            total,
+            imageBaseURL : "http://localhost:5000/category/"
+        })
     } catch (error) {
         // console.log(error)
         sendServerError(res, error)
