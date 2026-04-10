@@ -14,7 +14,7 @@ import DeleteBtn from "@/components/Admin/DeleteBtn";
 
 export default async function CategoriesPage() {
 
-    
+
 
 
 
@@ -22,7 +22,6 @@ export default async function CategoriesPage() {
     const { res } = await getCategory()
     let categories = res.data
     let meta = res.meta
-    console.log()
     return (
         <div>
             {/* 🔹 Header */}
@@ -65,7 +64,7 @@ export default async function CategoriesPage() {
                     {/* Body */}
                     <tbody>
                         {categories.map((cat) => (
-                            
+
                             <tr key={cat._id} className="border-t hover:bg-gray-50 transition">
 
                                 {/* Image */}
@@ -100,13 +99,16 @@ export default async function CategoriesPage() {
 
                                 {/* Actions */}
                                 <td className="px-6 py-4 flex justify-center gap-3">
+                                    
+                                    <Link href={`/admin/category/edit/${cat.slug}`}>
+                                        <button className="flex items-center gap-1 px-3 py-1 text-sm bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition">
+                                            <FiEdit />
+                                            Edit
+                                        </button>
+                                    </Link>
 
-                                    <button className="flex items-center gap-1 px-3 py-1 text-sm bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition">
-                                        <FiEdit />
-                                        Edit
-                                    </button>
 
-                                    <DeleteBtn cat = {cat}/>
+                                    <DeleteBtn cat={cat} />
 
                                 </td>
                             </tr>
