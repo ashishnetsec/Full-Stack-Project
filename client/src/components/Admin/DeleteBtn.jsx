@@ -7,7 +7,8 @@ import { client, notify } from '@/utils/helper'
 import { useRouter } from 'next/navigation'
 import Swal from 'sweetalert2'
 
-export default function DeleteBtn({ cat }) {
+export default function DeleteBtn({ cat, value } ) {
+
     const router = useRouter()
 
     async function deleteHandler() {
@@ -28,9 +29,9 @@ export default function DeleteBtn({ cat }) {
                     text: "Your file has been deleted.",
                     icon: "success"
                 });
-                client.delete(`category/delete/${cat._id}`).then(
+                client.delete(`${value}/delete/${cat._id}`).then(
                     (res) => {
-                        notify("Category Deleted Successfully", res.data.success)
+                        notify(`${value} Deleted Successfully`, res.data.success)
                         if (res.data.success) {
                             router.refresh()
                         }

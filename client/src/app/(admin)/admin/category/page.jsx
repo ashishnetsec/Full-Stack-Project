@@ -108,7 +108,7 @@ export default async function CategoriesPage() {
                                     </Link>
 
 
-                                    <DeleteBtn cat={cat} />
+                                    <DeleteBtn cat={cat} value = "category" />
 
                                 </td>
                             </tr>

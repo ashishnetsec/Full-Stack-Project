@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react"; // ✅ FIX: removed useRef
 import { client, notify } from "@/utils/helper";
 import { use } from "react";
-import { getCategorybySlug } from "@/api/api-call";
+import { getBrandbySlug } from "@/api/api-call";
 import SmartLoader from "@/components/Admin/SmartLoader";
 import { useRouter } from "next/navigation";
 
@@ -46,12 +46,12 @@ export default function page({ params }) {
 
         setLoading(true);
 
-        client.put(`category/update/${slug}`, payload)
+        client.put(`brand/update/${slug}`, payload)
             .then((res) => {
                 notify(res.data.message, res.data.success);
 
                 if (res.data.success) {
-                    router.push(`/admin/category`);
+                    router.push(`/admin/brand`);
                 }
             })
             .catch(() => {
@@ -62,11 +62,11 @@ export default function page({ params }) {
             });
     };
 
-    async function getCategory() {
+    async function getBrand() {
         try {
             setfetchLoading(true);
 
-            const { res } = await getCategorybySlug(slug);
+            const { res } = await getBrandbySlug(slug);
 
             const data = res.data;
             const meta = res.meta;
@@ -86,7 +86,7 @@ export default function page({ params }) {
     }
 
     useEffect(() => {
-        getCategory();
+        getBrand();
     }, []);
 
     if (fetchloading) {
@@ -99,10 +99,10 @@ export default function page({ params }) {
             {/* Header */}
             <div className="mb-8">
                 <h1 className="text-3xl font-bold text-gray-800">
-                    Edit Category
+                    Edit brand
                 </h1>
                 <p className="text-gray-500 mt-1">
-                    Edit category details and configure visibility settings
+                    Edit brand details and configure visibility settings
                 </p>
             </div>
 
@@ -119,7 +119,7 @@ export default function page({ params }) {
                         {/* Name */}
                         <div>
                             <label className="text-sm font-medium mb-1 block">
-                                Category Name
+                                Brand Name
                             </label>
 
                             <input
@@ -137,7 +137,7 @@ export default function page({ params }) {
                                             .replace(/[^\w-]+/g, "")
                                     });
                                 }}
-                                placeholder="Enter Category Name"
+                                placeholder="Enter Brand Name"
                                 className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-black outline-none"
                             />
                         </div>
@@ -162,7 +162,7 @@ export default function page({ params }) {
                     {/* 🔹 Image Upload */}
                     <div className="bg-white mt-3 p-6 rounded-2xl shadow-sm border">
                         <h2 className="text-lg font-semibold mb-4">
-                            Upload Category Image
+                            Upload Brand Image
                         </h2>
 
                         <label className="border-2 border-dashed rounded-xl p-10 text-center cursor-pointer hover:bg-gray-50 transition block">
@@ -211,7 +211,7 @@ export default function page({ params }) {
                         className="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800"
                         disabled={loading}
                     >
-                        {loading ? "Saving Category" : "Edit Category"}
+                        {loading ? "Saving brand" : "Edit brand"}
                     </button>
                 </div>
 

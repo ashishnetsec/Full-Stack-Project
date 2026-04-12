@@ -1,9 +1,10 @@
 import React from "react";
 import { FiEdit, FiTrash2, FiPlus } from "react-icons/fi";
 import Link from "next/link";
-import { getCategory } from "@/api/api-call";
+// import { getBrand } from "@/api/api-call";
 import StatusBtn from "@/components/Admin/StatusBtn";
 import DeleteBtn from "@/components/Admin/DeleteBtn";
+import { getBrand } from "@/api/api-call";
 
 
 
@@ -12,15 +13,15 @@ import DeleteBtn from "@/components/Admin/DeleteBtn";
 
 
 
-export default async function CategoriesPage() {
+export default async function brandPage() {
 
 
 
 
 
     const statusName = ["status", "is_Home", "is_Top", "is_Popular"]
-    const { res } = await getCategory()
-    let categories = res.data
+    const { res } = await getBrand()
+    let brand = res.data
     let meta = res.meta
     return (
         <div>
@@ -28,16 +29,16 @@ export default async function CategoriesPage() {
             <div className="flex items-center justify-between mb-6">
                 <div>
                     <h1 className="text-2xl font-bold text-gray-800">
-                        Category Management
+                        Brand Management
                     </h1>
                     <p className="text-sm text-gray-500">
-                        Manage categories, images and SEO-friendly slugs
+                        Manage brand, images and SEO-friendly slugs
                     </p>
                 </div>
-                <Link href={"/admin/category/add"}>
+                <Link href={"/admin/brand/add"}>
                     <button className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition ">
                         <FiPlus />
-                        Add Category
+                        Add Brand
                     </button>
                 </Link>
 
@@ -51,7 +52,7 @@ export default async function CategoriesPage() {
                     <thead className="bg-gray-100 text-gray-600 text-sm uppercase">
                         <tr>
                             <th className="px-6 py-3">Image</th>
-                            <th className="px-6 py-3">Category Name</th>
+                            <th className="px-6 py-3">Brand Name</th>
                             <th className="px-6 py-3">Slug</th>
                             <th className="px-6 py-3">Status</th>
                             <th className="px-6 py-3">Home</th>
@@ -63,7 +64,7 @@ export default async function CategoriesPage() {
 
                     {/* Body */}
                     <tbody>
-                        {categories.map((cat) => (
+                        {brand.map((cat) => (
 
                             <tr key={cat._id} className="border-t hover:bg-gray-50 transition">
 
@@ -100,7 +101,7 @@ export default async function CategoriesPage() {
                                 {/* Actions */}
                                 <td className="px-6 py-4 flex justify-center gap-3">
                                     
-                                    <Link href={`/admin/category/edit/${cat.slug}`}>
+                                    <Link href={`/admin/brand/edit/${cat.slug}`}>
                                         <button className="flex items-center gap-1 px-3 py-1 text-sm bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition">
                                             <FiEdit />
                                             Edit
@@ -108,7 +109,7 @@ export default async function CategoriesPage() {
                                     </Link>
 
 
-                                    <DeleteBtn cat={cat} />
+                                    <DeleteBtn cat={cat} value = "brand"/>
 
                                 </td>
                             </tr>

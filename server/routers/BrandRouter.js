@@ -1,6 +1,7 @@
 const brandRouter = require("express").Router()
-const { create, read, statusupdateByID, getByID, deleteByID, readbySlug, update } = require("../controllers/BrandController")
+
 const fileUploader = require("express-fileupload")
+const { read, readbySlug, create, statusupdateByID, getByID, deleteByID, update } = require("../controllers/BrandController")
 
 brandRouter.post("/create", fileUploader({ createParentPath: true }), create)
 brandRouter.get("/", read)
