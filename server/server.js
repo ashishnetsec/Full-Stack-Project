@@ -8,6 +8,7 @@ app.use(express.json())
 app.use(cors("*"))
 app.use(express.static("./public"))
 app.use("/api/category", require('./routers/CategoryRouter'))
+app.use("/api/brand", require('./routers/BrandRouter'))
 
 mongoose.connect(process.env.MONGODB_URL).then(() => {
 
