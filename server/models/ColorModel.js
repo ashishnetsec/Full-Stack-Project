@@ -1,6 +1,6 @@
 const mongoose = require("mongoose")
 
-const BrandSchema = new mongoose.Schema(
+const ColorSchema = new mongoose.Schema(
     {
         name: {
             type: String,
@@ -19,37 +19,16 @@ const BrandSchema = new mongoose.Schema(
             trim: true
         },
 
-        image: {
-            type: String,
-            default: null,
-        },
-
         status: {
             type: Boolean,
             default: true,
         },
 
-        is_Popular: {
-            type: Boolean,
-            default: false,
-        },
-
-        is_Top: {
-            type: Boolean,
-            default: false,
-        },
-
-        is_Home: {
-            type: Boolean,
-            default: false,
-        },
-        categoryId: [
-            {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: "categories",
-                default: []
-            }
-        ]
+        color_code: {
+            type: String,
+            unique: true,
+            require: true
+        }
     },
     {
         timestamps: true,
@@ -57,5 +36,5 @@ const BrandSchema = new mongoose.Schema(
 );
 
 
-const BrandModel = mongoose.model("brand", BrandSchema)
-module.exports = BrandModel;
+const ColorModel = mongoose.model("color", ColorSchema)
+module.exports = ColorModel;

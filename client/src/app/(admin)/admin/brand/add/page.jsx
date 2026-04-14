@@ -2,6 +2,8 @@
 
 import React, { useRef, useState, useEffect } from "react"; // ✅ added useEffect
 import { client, notify } from "@/utils/helper";
+import { getCategory } from "@/api/api-call";
+import Select from 'react-select'
 
 export default function page() {
   const [loading, setLoading] = useState(false);
@@ -11,6 +13,16 @@ export default function page() {
 
   const [imagePreview, setImagePreview] = useState(null);
   const [imageFile, setImageFile] = useState(null);
+
+  const [categories, setCategories] = useState([])
+  const [selCategories, setselCategories] = useState([])
+
+
+  function categorySelect(cat){
+    const selItem = cat.map((cat)=>cat.value)
+    setselCategories(selItem)
+    // console.log(selCategories)
+  }
 
   function createSlug() {
     const brandSlug = nameRef.current.value;
@@ -38,6 +50,7 @@ export default function page() {
 
     payload.append("name", nameRef.current.value);
     payload.append("slug", slugRef.current.value);
+    payload.append("categoryId", JSON.stringify(selCategories));
 
     if (imageFile) {
       payload.append("image", imageFile);
@@ -53,8 +66,9 @@ export default function page() {
         if (res.data.success) {
           nameRef.current.value = "";
           slugRef.current.value = "";
-          setImagePreview(null); 
-          setImageFile(null); 
+          setselCategories([])
+          setImagePreview(null);
+          setImageFile(null);
         }
       })
       .catch(() => {
@@ -64,6 +78,27 @@ export default function page() {
         setLoading(false);
       });
   };
+
+  const fetchCategories = async () => {
+
+    try {
+
+      const { res } = await getCategory();
+      setCategories(res.data)
+
+
+    } catch (error) {
+      console.log(error)
+      setCategories([])
+    }
+
+  }
+
+
+  useEffect(() => {
+    fetchCategories()
+  }, [])
+
 
   useEffect(() => {
     return () => {
@@ -77,10 +112,10 @@ export default function page() {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-800">
-          Create New Category
+          Create New Brand
         </h1>
         <p className="text-gray-500 mt-1">
-          Add category details and configure visibility settings
+          Add brand details and configure visibility settings
         </p>
       </div>
 
@@ -95,13 +130,13 @@ export default function page() {
             {/* Name */}
             <div>
               <label className="text-sm font-medium mb-1 block">
-                Category Name
+                Brand Name
               </label>
               <input
                 type="text"
                 ref={nameRef}
                 onChange={createSlug}
-                placeholder="Enter Category Name"
+                placeholder="Enter Brand Name"
                 className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-black outline-none"
               />
             </div>
@@ -119,6 +154,31 @@ export default function page() {
                 className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-black outline-none"
               />
             </div>
+
+
+          </div>
+
+
+          {/* Add categories Input */}
+          <div className="grid grid-cols-1 gap-6 my-4">
+
+            {/* Name */}
+            <div className="bg-white mt-3 p-6 rounded-2xl shadow-sm border">
+              <label className="text-sm font-medium mb-1 block">
+                Category Name
+              </label>
+              <Select
+                closeMenuOnSelect={false}
+                onChange={categorySelect}
+                className="border rounded focus:ring-2 focus:ring-black outline-none"
+                isMulti
+                options={categories.map((cat) => (
+                  { value: cat._id, label: cat.name }
+                ))} />
+            </div>
+
+
+
 
           </div>
 

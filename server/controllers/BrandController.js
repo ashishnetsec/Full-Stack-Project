@@ -5,10 +5,10 @@ const { sendSuccess, sendCreated, sendBadRequest, sendNotFound, sendConflict, se
 
 const create = async (req, res) => {
     try {
-        const { name, slug } = req.body;
+        const { name, slug, categoryId } = req.body;
         const image = req.files.image;
 
-        if (!name || !slug || !image) return sendBadRequest(res)
+        if (!name || !slug || !image || !categoryId ) return sendBadRequest(res)
         const brand = await BrandModel.findOne({ name })
         if (brand) return sendConflict(res, "Brand Already Exist")
         const img_name = createUniqueName(image.name)
@@ -17,7 +17,7 @@ const create = async (req, res) => {
             destination,
             async (err) => {
                 if (err) return sendServerError(res, "Unable to Upload File")
-                await BrandModel.create({ name, slug, image: img_name });
+                await BrandModel.create({ name, slug, image: img_name, categoryId: JSON.parse(categoryId) });
                 return sendCreated(res)
             })
     } catch (error) {
@@ -28,7 +28,7 @@ const create = async (req, res) => {
 const read = async (req, res) => {
     try {
         // console.log(req.body)
-        const brand = await BrandModel.find();
+        const brand = await BrandModel.find().populate("categoryId");
         const total = await BrandModel.find().countDocuments();
         if (brand) return sendSuccess(res, "Brand Data Fetched Successfully", brand, {
             total,

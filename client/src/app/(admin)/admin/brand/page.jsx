@@ -93,7 +93,7 @@ export default async function brandPage() {
                                     statusName.map((data, index) => {
                                         // console.log(data)
                                         return <td key={index} className="px-6 py-4 ">
-                                            <StatusBtn cat={cat} data={data} />
+                                            <StatusBtn cat={cat} data={data} path="brand" />
                                         </td>
                                     })
                                 }

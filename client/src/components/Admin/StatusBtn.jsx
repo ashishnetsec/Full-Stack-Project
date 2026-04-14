@@ -6,7 +6,7 @@ import React from 'react'
 import { useRouter } from 'next/navigation';
 
 
-export default function StatusBtn({ cat, data }) {
+export default function StatusBtn({ cat, data, path }) {
     const router = useRouter()
     const getStatusStyle = (status) => {
         if (status) {
@@ -19,7 +19,7 @@ export default function StatusBtn({ cat, data }) {
     };
 
     async function statusHandler() {
-        await client.patch(`category/status-update/${cat._id}`, { field: `${data}` }).then(
+        await client.patch(`${path}/status-update/${cat._id}`, { field: `${data}` }).then(
             (res) => {
                 notify(res.data.message, res.data.success)
                 if (res.data.success) {
