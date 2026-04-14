@@ -14,9 +14,37 @@ const getCategory = async () => {
     }
 }
 
+const getColor = async () => {
+    try {
+        const response = await client.get("color");
+        if (response.data.success) {
+            return { res: response.data }
+        } else {
+            throw new Error("Failed to fetch API")
+        }
+    }
+    catch (error) {
+        throw new Error("Failed to fetch API")
+    }
+}
+
 const getCategorybySlug = async (slug) => {
     try {
         const response = await client.get(`category/${slug}`);
+        if (response.data.success) {
+            return { res: response.data }
+        } else {
+            throw new Error("Failed to fetch API")
+        }
+    }
+    catch (error) {
+        throw new Error("Internal Server Error")
+    }
+}
+
+const getColorbySlug = async (slug) => {
+    try {
+        const response = await client.get(`color/${slug}`);
         if (response.data.success) {
             return { res: response.data }
         } else {
@@ -57,4 +85,4 @@ const getBrandbySlug = async (slug) => {
 }
 
 
-export { getCategory, getCategorybySlug, getBrand, getBrandbySlug }
+export { getCategory, getCategorybySlug, getBrand, getBrandbySlug, getColor, getColorbySlug }

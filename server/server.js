@@ -9,7 +9,7 @@ app.use(cors("*"))
 app.use(express.static("./public"))
 app.use("/api/category", require('./routers/CategoryRouter'))
 app.use("/api/brand", require('./routers/BrandRouter'))
-app.use("/api/color", require('./routers/BrandRouter'))
+app.use("/api/color", require('./routers/ColorRouter'))
 
 mongoose.connect(process.env.MONGODB_URL).then(() => {
 
@@ -22,3 +22,4 @@ mongoose.connect(process.env.MONGODB_URL).then(() => {
 }).catch((err) => {
     console.log("Database not connected")
 })
+

@@ -124,7 +124,7 @@ export default function page({ params }) {
 
                             <input
                                 type="text"
-                                value={formData.name} // ✅ FIX
+                                value={formData.name} 
                                 onChange={(e) => {
                                     const value = e.target.value;
 
@@ -150,7 +150,7 @@ export default function page({ params }) {
 
                             <input
                                 type="text"
-                                value={formData.slug} // ✅ FIX
+                                value={formData.slug}
                                 readOnly
                                 placeholder="slug-name"
                                 className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-black outline-none"

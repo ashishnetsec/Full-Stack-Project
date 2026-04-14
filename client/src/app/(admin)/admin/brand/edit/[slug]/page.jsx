@@ -3,9 +3,10 @@
 import React, { useEffect, useState } from "react"; // ✅ FIX: removed useRef
 import { client, notify } from "@/utils/helper";
 import { use } from "react";
-import { getBrandbySlug } from "@/api/api-call";
+import { getBrandbySlug, getCategory } from "@/api/api-call";
 import SmartLoader from "@/components/Admin/SmartLoader";
 import { useRouter } from "next/navigation";
+import Select from 'react-select'
 
 export default function page({ params }) {
     const router = useRouter();
@@ -16,10 +17,19 @@ export default function page({ params }) {
     const [loading, setLoading] = useState(false);
     const [fetchloading, setfetchLoading] = useState(false);
 
+    const [categories, setCategories] = useState([])
+    const [selCategories, setselCategories] = useState([])
+
     const [formData, setFormData] = useState({
         name: "",
         slug: ""
     });
+
+    function categorySelect(cat) {
+        const selItem = cat.map((cat) => cat.value)
+        setselCategories(selItem)
+        // console.log(selCategories)
+    }
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -40,6 +50,9 @@ export default function page({ params }) {
 
         payload.append("name", formData.name);
         payload.append("slug", formData.slug);
+        payload.append("categoryId", JSON.stringify(selCategories));
+        // console.log(payload.name)
+        // return
         if (image) {
             payload.append("image", imageFile);
         }
@@ -61,6 +74,26 @@ export default function page({ params }) {
                 setLoading(false);
             });
     };
+
+    const fetchCategories = async () => {
+
+        try {
+
+            const { res } = await getCategory();
+            // console.log(res)
+            setCategories(res.data)
+
+        } catch (error) {
+            console.log(error)
+            setCategories([])
+        }
+
+    }
+
+
+    useEffect(() => {
+        fetchCategories();
+    }, [])
 
     async function getBrand() {
         try {
@@ -124,7 +157,7 @@ export default function page({ params }) {
 
                             <input
                                 type="text"
-                                value={formData.name} // ✅ FIX
+                                value={formData.name}
                                 onChange={(e) => {
                                     const value = e.target.value;
 
@@ -157,6 +190,28 @@ export default function page({ params }) {
                             />
                         </div>
 
+
+
+                    </div>
+
+                    {/* Add categories Input */}
+                    <div className="grid grid-cols-1 gap-6 my-4">
+
+                        {/* Name */}
+                        <div className="bg-white mt-3 p-6 rounded-2xl shadow-sm border">
+                            <label className="text-sm font-medium mb-1 block">
+                                Category Name
+                            </label>
+                            <Select
+                                closeMenuOnSelect={false}
+                                onChange={categorySelect}
+                                className="border rounded focus:ring-2 focus:ring-black outline-none"
+                                isMulti
+                                options={categories.map((cat) => (
+                                    { value: cat._id, label: cat.name }
+                                ))} />
+                        </div>
+
                     </div>
 
                     {/* 🔹 Image Upload */}
@@ -177,7 +232,7 @@ export default function page({ params }) {
                                     />
 
                                 </div>
-                                
+
                                 <p className="text-gray-500 text-sm">
                                     Click to Edit image
                                 </p>

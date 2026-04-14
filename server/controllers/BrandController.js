@@ -1,3 +1,4 @@
+const { json } = require("express");
 const BrandModel = require("../models/BrandModel");
 const { createUniqueName } = require("../utils/helper");
 const { sendSuccess, sendCreated, sendBadRequest, sendNotFound, sendConflict, sendServerError, sendOk } = require("../utils/response")
@@ -8,7 +9,7 @@ const create = async (req, res) => {
         const { name, slug, categoryId } = req.body;
         const image = req.files.image;
 
-        if (!name || !slug || !image || !categoryId ) return sendBadRequest(res)
+        if (!name || !slug || !image || !categoryId) return sendBadRequest(res)
         const brand = await BrandModel.findOne({ name })
         if (brand) return sendConflict(res, "Brand Already Exist")
         const img_name = createUniqueName(image.name)
@@ -120,16 +121,21 @@ const update = async (req, res) => {
     try {
 
         const image = req.files?.image || null;
-        const slug = req.params.slug;
+        const slug = req.params?.slug;
 
         const brand = await BrandModel.findOne({ slug });
         if (!brand) return sendNotFound(res)
+
+
 
         const object = {}
 
         if (req.body.name) {
             object.name = req.body.name;
             object.slug = req.body.slug;
+            if (req.body.categoryId) {
+                object.categoryId = JSON.parse(req.body.categoryId);
+            }
         }
 
         if (image) {
