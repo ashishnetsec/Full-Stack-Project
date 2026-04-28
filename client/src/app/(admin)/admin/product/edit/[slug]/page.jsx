@@ -3,13 +3,12 @@
 import React, { useEffect, useState } from "react"; // ✅ FIX: removed useRef
 import { client, notify } from "@/utils/helper";
 import { use } from "react";
-import { getBrandbySlug, getCategory } from "@/api/api-call";
+import { getCategorybySlug } from "@/api/api-call";
 import SmartLoader from "@/components/Admin/SmartLoader";
 import { useRouter } from "next/navigation";
-import Select from 'react-select'
 
 export default function page({ params }) {
-    const router = useRouter();
+    const router = useRouter();p
     const { slug } = use(params);
 
     const [image, setImage] = useState("");
@@ -17,21 +16,10 @@ export default function page({ params }) {
     const [loading, setLoading] = useState(false);
     const [fetchloading, setfetchLoading] = useState(false);
 
-    const [categories, setCategories] = useState([])
-    const [selCategories, setselCategories] = useState([])
-
     const [formData, setFormData] = useState({
         name: "",
         slug: ""
     });
-
-    function categorySelect(cat) {
-        const selItem = cat.map((cat) => cat.value)
-        setselCategories(selItem)
-        console.log(selCategories)
-    }
-
-    
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -52,21 +40,18 @@ export default function page({ params }) {
 
         payload.append("name", formData.name);
         payload.append("slug", formData.slug);
-        payload.append("categoryId", JSON.stringify(selCategories));
-        // console.log(payload.name)
-        // return
         if (image) {
             payload.append("image", imageFile);
         }
 
         setLoading(true);
 
-        client.put(`brand/update/${slug}`, payload)
+        client.put(`category/update/${slug}`, payload)
             .then((res) => {
                 notify(res.data.message, res.data.success);
 
                 if (res.data.success) {
-                    router.push(`/admin/brand`);
+                    router.push(`/admin/category`);
                 }
             })
             .catch(() => {
@@ -77,34 +62,13 @@ export default function page({ params }) {
             });
     };
 
-    const fetchCategories = async () => {
-
-        try {
-
-            const { res } = await getCategory();
-            // console.log(res)
-            setCategories(res.data)
-
-        } catch (error) {
-            console.log(error)
-            setCategories([])
-        }
-
-    }
-
-
-    useEffect(() => {
-        fetchCategories();
-    }, [])
-
-    async function getBrand() {
+    async function getCategory() {
         try {
             setfetchLoading(true);
 
-            const { res } = await getBrandbySlug(slug);
+            const { res } = await getCategorybySlug(slug);
 
             const data = res.data;
-            // console.log(data.categoryId.name)
             const meta = res.meta;
 
             setFormData({
@@ -122,7 +86,7 @@ export default function page({ params }) {
     }
 
     useEffect(() => {
-        getBrand();
+        getCategory();
     }, []);
 
     if (fetchloading) {
@@ -135,10 +99,10 @@ export default function page({ params }) {
             {/* Header */}
             <div className="mb-8">
                 <h1 className="text-3xl font-bold text-gray-800">
-                    Edit brand
+                    Edit Category
                 </h1>
                 <p className="text-gray-500 mt-1">
-                    Edit brand details and configure visibility settings
+                    Edit category details and configure visibility settings
                 </p>
             </div>
 
@@ -155,12 +119,12 @@ export default function page({ params }) {
                         {/* Name */}
                         <div>
                             <label className="text-sm font-medium mb-1 block">
-                                Brand Name
+                                Category Name
                             </label>
 
                             <input
                                 type="text"
-                                value={formData.name}
+                                value={formData.name} 
                                 onChange={(e) => {
                                     const value = e.target.value;
 
@@ -173,7 +137,7 @@ export default function page({ params }) {
                                             .replace(/[^\w-]+/g, "")
                                     });
                                 }}
-                                placeholder="Enter Brand Name"
+                                placeholder="Enter Category Name"
                                 className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-black outline-none"
                             />
                         </div>
@@ -186,34 +150,11 @@ export default function page({ params }) {
 
                             <input
                                 type="text"
-                                value={formData.slug} // ✅ FIX
+                                value={formData.slug}
                                 readOnly
                                 placeholder="slug-name"
                                 className="w-full border rounded-lg px-4 py-3 focus:ring-2 focus:ring-black outline-none"
                             />
-                        </div>
-
-
-
-                    </div>
-
-                    {/* Add categories Input */}
-                    <div className="grid grid-cols-1 gap-6 my-4">
-
-                        {/* Name */}
-                        <div className="bg-white mt-3 p-6 rounded-2xl shadow-sm border">
-                            <label className="text-sm font-medium mb-1 block">
-                                Category Name
-                            </label>
-                            <Select
-                                closeMenuOnSelect={false}
-                                onChange={categorySelect}
-                                className="border rounded focus:ring-2 focus:ring-black outline-none"
-                                isMulti
-                                // defaultValue={}
-                                options={categories.map((cat) => (
-                                    { value: cat._id, label: cat.name }
-                                ))} />
                         </div>
 
                     </div>
@@ -221,7 +162,7 @@ export default function page({ params }) {
                     {/* 🔹 Image Upload */}
                     <div className="bg-white mt-3 p-6 rounded-2xl shadow-sm border">
                         <h2 className="text-lg font-semibold mb-4">
-                            Upload Brand Image
+                            Upload Category Image
                         </h2>
 
                         <label className="border-2 border-dashed rounded-xl p-10 text-center cursor-pointer hover:bg-gray-50 transition block">
@@ -236,7 +177,7 @@ export default function page({ params }) {
                                     />
 
                                 </div>
-
+                                
                                 <p className="text-gray-500 text-sm">
                                     Click to Edit image
                                 </p>
@@ -270,7 +211,7 @@ export default function page({ params }) {
                         className="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800"
                         disabled={loading}
                     >
-                        {loading ? "Saving brand" : "Edit brand"}
+                        {loading ? "Saving Category" : "Edit Category"}
                     </button>
                 </div>
 

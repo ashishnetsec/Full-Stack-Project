@@ -1,54 +1,69 @@
+"use client";
+
 import React from "react";
-import { FiSearch, FiBell, FiMenu } from "react-icons/fi";
+import { FiSearch, FiBell, FiUser } from "react-icons/fi";
+import Link from "next/link";
 
 const AdminHeader = () => {
   return (
-    <header className="h-16 bg-white shadow-sm px-6 flex items-center justify-between sticky top-0 z-50">
-      
-      {/* Left - Title + (future toggle button) */}
-      <div className="flex items-center gap-4">
-        <button className="lg:hidden text-gray-600">
-          <FiMenu size={20} />
-        </button>
-        <h1 className="text-lg font-semibold text-gray-800">
-          Admin Panel
-        </h1>
-      </div>
+    <div className="px-10 pl-28 pt-6">
 
-      {/* Center - Search */}
-      <div className="hidden md:flex items-center bg-gray-100 px-3 py-2 rounded-lg w-1/3">
-        <FiSearch className="text-gray-500 mr-2" />
-        <input
-          type="text"
-          placeholder="Search products, orders..."
-          className="bg-transparent outline-none w-full text-sm"
-        />
-      </div>
+      {/* 🔥 Full Width Floating Bar */}
+      <div className="px-8 py-2 rounded-2xl bg-white shadow-md border border-gray-200 flex items-center justify-between">
 
-      {/* Right - Actions */}
-      <div className="flex items-center gap-4">
-        
-        {/* Notifications */}
-        <button className="relative p-2 rounded-full hover:bg-gray-100 transition">
-          <FiBell size={20} className="text-gray-600" />
-          <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-        </button>
+        {/* 🔹 Left Section (Logo + Search) */}
+        <div className="flex items-center gap-6 w-full max-w-2xl">
 
-        {/* Profile */}
-        <div className="flex items-center gap-2 cursor-pointer hover:bg-gray-100 px-3 py-1 rounded-lg transition">
-          <img
-            src="https://i.pravatar.cc/40"
-            className="w-8 h-8 rounded-full"
-            alt="profile"
+          {/* 🔥 Logo */}
+          <Link href="/admin" className="select-none shrink-0">
+            <h1
+              className="
+              text-xl font-bold tracking-tight
+              bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500
+              bg-[length:200%_200%]
+              bg-clip-text text-transparent
+              animate-gradient
+              "
+            >
+              AshishIsHere
+            </h1>
+          </Link>
+        </div>
+
+        {/* 🔍 Search Input */}
+        <div className="flex items-center flex-1 bg-gray-100 rounded-xl px-4 py-2 
+          focus-within:bg-white border border-transparent focus-within:border-gray-300 transition">
+
+          <FiSearch className="text-gray-400 mr-2" />
+
+          <input
+            type="text"
+            placeholder="Search products, orders..."
+            className="bg-transparent outline-none text-sm w-full"
           />
-          <div className="hidden sm:block">
-            <p className="text-sm font-medium text-gray-700">USER</p>
-            <p className="text-xs text-gray-500">Super Admin</p>
-          </div>
+        </div>
+
+        {/* 🔹 Right Icons */}
+        <div className="flex items-center gap-3 ml-6">
+
+          {/* Notification */}
+          <button className="relative w-11 h-11 flex items-center justify-center rounded-xl 
+          text-gray-500 hover:bg-gray-100 transition">
+            <FiBell />
+            <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
+          </button>
+
+          {/* Profile */}
+          <button className="w-11 h-11 flex items-center justify-center rounded-xl 
+          text-gray-500 hover:bg-gray-100 transition">
+            <FiUser />
+          </button>
+
         </div>
 
       </div>
-    </header>
+
+    </div>
   );
 };
 

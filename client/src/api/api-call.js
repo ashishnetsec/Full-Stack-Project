@@ -14,6 +14,20 @@ const getCategory = async () => {
     }
 }
 
+const getProducts = async () => {
+    try {
+        const response = await client.get("product");
+        if (response.data.success) {
+            return { res: response.data }
+        } else {
+            throw new Error("Failed to fetch API")
+        }
+    }
+    catch (error) {
+        throw new Error("Failed to fetch API")
+    }
+}
+
 const getColor = async () => {
     try {
         const response = await client.get("color");
@@ -85,4 +99,4 @@ const getBrandbySlug = async (slug) => {
 }
 
 
-export { getCategory, getCategorybySlug, getBrand, getBrandbySlug, getColor, getColorbySlug }
+export { getCategory, getCategorybySlug, getBrand, getBrandbySlug, getColor, getColorbySlug, getProducts }

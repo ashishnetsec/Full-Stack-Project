@@ -13,20 +13,20 @@ import {
 
 export default function DashboardPage() {
   return (
-    <div className="max-w-7xl mx-auto space-y-8">
+    <div className="space-y-8">
 
       {/* 🔹 Header */}
       <div>
-        <h1 className="text-2xl font-semibold text-gray-800">
+        <h1 className="text-2xl font-semibold text-gray-900">
           Seller Dashboard
         </h1>
-        <p className="text-sm text-gray-500">
+        <p className="text-sm text-gray-500 mt-1">
           Monitor your store performance and operations
         </p>
       </div>
 
       {/* 🔹 KPI Row */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
         <KPI title="Total Orders" value="1,245" icon={<FiShoppingCart />} />
         <KPI title="Pending Orders" value="32" icon={<FiTruck />} />
         <KPI title="Customers" value="5,230" icon={<FiUsers />} />
@@ -37,7 +37,7 @@ export default function DashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
         {/* Sales Chart */}
-        <div className="col-span-2 bg-white border rounded-xl p-5 shadow-sm hover:shadow-md transition">
+        <div className="col-span-2 bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-sm font-semibold flex items-center gap-2 text-gray-700">
               <FiTrendingUp className="text-gray-400" />
@@ -46,19 +46,19 @@ export default function DashboardPage() {
             <span className="text-xs text-gray-400">Last 7 days</span>
           </div>
 
-          <div className="h-56 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-sm">
+          <div className="h-56 rounded-xl border border-dashed border-gray-200 flex items-center justify-center text-gray-400 text-sm">
             Chart Area 📈
           </div>
         </div>
 
         {/* Orders Chart */}
-        <div className="bg-white border rounded-xl p-5 shadow-sm hover:shadow-md transition">
+        <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition">
           <h2 className="text-sm font-semibold flex items-center gap-2 text-gray-700 mb-4">
             <FiBarChart2 className="text-gray-400" />
             Orders Breakdown
           </h2>
 
-          <div className="h-56 bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg flex items-center justify-center text-gray-400 text-sm">
+          <div className="h-56 rounded-xl border border-dashed border-gray-200 flex items-center justify-center text-gray-400 text-sm">
             Pie Chart 🍩
           </div>
         </div>
@@ -84,21 +84,24 @@ export default function DashboardPage() {
         </Card>
 
         {/* Alerts */}
-        <div className="bg-white border rounded-xl p-5 shadow-sm hover:shadow-md transition">
+        <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition">
           <h2 className="text-sm font-semibold flex items-center gap-2 text-gray-700 mb-4">
             <FiAlertCircle className="text-red-400" />
             Alerts
           </h2>
 
-          <ul className="space-y-2 text-sm text-gray-600">
-            <li className="hover:text-black transition cursor-pointer">
-              • 5 products are out of stock
+          <ul className="space-y-3 text-sm text-gray-600">
+            <li className="flex items-start gap-2 hover:text-black transition cursor-pointer">
+              <span className="text-red-500">•</span>
+              5 products are out of stock
             </li>
-            <li className="hover:text-black transition cursor-pointer">
-              • 3 orders delayed
+            <li className="flex items-start gap-2 hover:text-black transition cursor-pointer">
+              <span className="text-red-500">•</span>
+              3 orders delayed
             </li>
-            <li className="hover:text-black transition cursor-pointer">
-              • Low inventory on 2 items
+            <li className="flex items-start gap-2 hover:text-black transition cursor-pointer">
+              <span className="text-red-500">•</span>
+              Low inventory on 2 items
             </li>
           </ul>
         </div>
@@ -106,16 +109,16 @@ export default function DashboardPage() {
       </div>
 
       {/* 🔹 Recent Orders */}
-      <div className="bg-white border rounded-xl shadow-sm overflow-hidden hover:shadow-md transition">
+      <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
 
-        <div className="p-5 border-b">
+        <div className="p-5 border-b border-gray-200">
           <h2 className="text-sm font-semibold text-gray-700">
             Recent Orders
           </h2>
         </div>
 
         <table className="w-full text-sm text-left">
-          <thead className="bg-gray-100 text-gray-600 uppercase text-xs">
+          <thead className="bg-gray-50 text-gray-500 uppercase text-xs">
             <tr>
               <th className="px-5 py-3 font-medium">Order ID</th>
               <th className="px-5 py-3 font-medium">Customer</th>
@@ -141,25 +144,30 @@ export default function DashboardPage() {
 /* 🔹 KPI */
 const KPI = ({ title, value, icon }) => {
   return (
-    <div className="bg-white border rounded-lg p-4 flex items-center justify-between shadow-sm 
-    hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 cursor-pointer">
+    <div className="bg-white border border-gray-200 rounded-2xl p-5 
+    flex items-center justify-between 
+    hover:shadow-lg hover:-translate-y-1 
+    transition-all duration-300 cursor-pointer">
 
       <div>
         <p className="text-xs text-gray-500 tracking-wide">{title}</p>
-        <h2 className="text-lg font-semibold text-gray-800 mt-1">
+        <h2 className="text-xl font-semibold text-gray-900 mt-2">
           {value}
         </h2>
       </div>
 
-      <div className="text-gray-400 text-xl">{icon}</div>
+      <div className="w-11 h-11 flex items-center justify-center 
+      rounded-xl bg-gray-100 text-gray-500 text-lg">
+        {icon}
+      </div>
     </div>
   );
 };
 
-/* 🔹 Card Wrapper */
+/* 🔹 Card */
 const Card = ({ title, children }) => {
   return (
-    <div className="bg-white border rounded-xl p-5 shadow-sm hover:shadow-md transition">
+    <div className="bg-white border border-gray-200 rounded-2xl p-5 shadow-sm hover:shadow-md transition">
       <h2 className="text-sm font-semibold text-gray-700 mb-4">
         {title}
       </h2>
@@ -197,7 +205,7 @@ const OrderRow = ({ id, name, date, amount, status }) => {
   };
 
   return (
-    <tr className="border-t hover:bg-gray-50 transition duration-150">
+    <tr className="border-t border-gray-200 hover:bg-gray-50 transition duration-200">
       <td className="px-5 py-3 font-medium text-gray-800">{id}</td>
       <td className="px-5 py-3 text-gray-600">{name}</td>
       <td className="px-5 py-3 text-gray-500">{date}</td>

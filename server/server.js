@@ -10,6 +10,7 @@ app.use(express.static("./public"))
 app.use("/api/category", require('./routers/CategoryRouter'))
 app.use("/api/brand", require('./routers/BrandRouter'))
 app.use("/api/color", require('./routers/ColorRouter'))
+app.use("/api/product", require('./routers/ProductRouter'))
 
 mongoose.connect(process.env.MONGODB_URL).then(() => {
 
